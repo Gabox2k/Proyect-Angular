@@ -1,4 +1,13 @@
-<app-addTask></app-addTask>
-<app-list-task></app-list-task>
+<app-addTask>
+    <p>Este es el contenido que quiero mostrar</p>
+    <button>Presionar</button>
+</app-addTask>
 
+<app-list-task></app-list-task>
+<div> valor actual 
+    {{value}}
+</div>
+
+<p *ngIf="ChangeDetected">Cambios detectados</p>
+<button (click)="updateValue()">Actualizar valor</button>
 <router-outlet />
