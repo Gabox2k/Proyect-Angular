@@ -1,5 +1,5 @@
-<h1 [ngClass]="{'r1-5': (numberTask >=1 && numberTask <=5 ), 'r5-10': (numberTask > 5 && numberTask <=10), 'r10-15': (numberTask > 10)}">Numeros de tareas: {{numberTask}}</h1>
-<span [ngStyle]="{'color' : isActive ? 'green' : 'red'}">Titulo de tarea: {{form.get('title')?.value}}</span>
+<h1 class="number_Task"
+ [ngClass]="{'r1-5': (numberTask >=1 && numberTask <=5 ), 'r5-10': (numberTask > 5 && numberTask <=10), 'r10-15': (numberTask > 10)}">Numeros de tareas: {{numberTask}}</h1>
 
 <div *ngIf="form.get('title')?.invalid && (form.get('title')?.dirty || form.get('title')?.touched)">
     <small *ngIf="form.get('title')?.errors?.['required']">
@@ -10,16 +10,24 @@
     </small>
 </div>
 
-<div *ngFor="let task of tasks let i = index">
+<h2>Tareas</h2>
+<div class="container_task" [ngStyle]="{'justify-content': tasks.length === 0 ? 'center' : ''}">
+    <div class="task" *ngFor="let task of tasks let i = index">
+
     <small>
-        {{i}}
+        {{i + 1 }}
     </small>
-    {{task}}
+    <span [ngClass]="{'subrayar': task.completed}" [appTaskStatus] = "task.completed">{{task.title}}</span>
+    <input class="task_check"  type="checkbox"[checked]="task.completed" (change)="markTakCompleted(task)">
+    <button class="task_delete" (click)="delete(task.id)" [appConfirmDelete]="task.title">Eliminar</button>
+    </div>
 </div>
 
-<form class="container_input" 
-      [formGroup]= "form" 
-      (ngSubmit)="sendTaskTitle()">
+<span [ngStyle]="{'color': 'white'}" *ngIf="tasks.length===0">
+    No hay tareas 
+</span>
+
+<form class="container_input" [formGroup]= "form" (ngSubmit)="sendTaskTitle()">
     <input type="text" placeholder="Ingresar tarea" formControlName="title">
     <button type="submit">Enviar</button>
 </form>
