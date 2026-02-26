@@ -9,12 +9,12 @@ import { ListTaskComponent } from './components/list-task/list-task.component'
 @NgModule({
   declarations: [
     AppComponent,
-    Addcomponent,
     ListTaskComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    Addcomponent
   ],
   providers: [
     provideClientHydration()

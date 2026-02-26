@@ -1,9 +1,25 @@
-<h1>
-    Componentes para agregar tareas 
-</h1>
+<h1 [ngClass]="{'r1-5': (numberTask >=1 && numberTask <=5 ), 'r5-10': (numberTask > 5 && numberTask <=10), 'r10-15': (numberTask > 10)}">Numeros de tareas: {{numberTask}}</h1>
+<span [ngStyle]="{'color' : isActive ? 'green' : 'red'}">Titulo de tarea: {{form.get('title')?.value}}</span>
 
-<div class="child_container">
-    <h2>Componente hijos</h2>
-    <ng-content></ng-content>
-
+<div *ngIf="form.get('title')?.invalid && (form.get('title')?.dirty || form.get('title')?.touched)">
+    <small *ngIf="form.get('title')?.errors?.['required']">
+        El titulo es requerido 
+    </small>
+    <small *ngIf="form.get('title')?.errors?.['maxlength']">
+            El maximo de caracteteres es de 10
+    </small>
 </div>
+
+<div *ngFor="let task of tasks let i = index">
+    <small>
+        {{i}}
+    </small>
+    {{task}}
+</div>
+
+<form class="container_input" 
+      [formGroup]= "form" 
+      (ngSubmit)="sendTaskTitle()">
+    <input type="text" placeholder="Ingresar tarea" formControlName="title">
+    <button type="submit">Enviar</button>
+</form>
