@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
-import { AfterContentInit, Component, OnDestroy, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { AfterContentInit, Component, OnInit, Output, EventEmitter } from "@angular/core";
+import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators, FormsModule } from "@angular/forms";
 import { Task } from "../../modelos/task_interface";
 import { StatusTaskDirective } from "../../directives/status-task.directive";
 import { ConfirmDelete } from "../../directives/confirm_delete";
@@ -10,61 +10,18 @@ import { ConfirmDelete } from "../../directives/confirm_delete";
     templateUrl: "./add_component.html",
     styleUrl: "./add_component.scss",
     standalone: true,
-    imports: [ReactiveFormsModule, CommonModule, StatusTaskDirective, ConfirmDelete, ConfirmDelete]
+    imports: [ReactiveFormsModule, CommonModule, FormsModule]
 })
 
-export class Addcomponent  implements OnInit{
+export class Addcomponent implements OnInit{
+
+    @Output() taskAdded: EventEmitter <Task> = new EventEmitter<Task>()
 
     numberTask!: number;
 
-    isActive: boolean = false
+   
 
-    taskActive!: boolean 
-
-    tasks: Task[] =[
-    {
-        id: 1,
-        title: 'tarea 1',
-        completed: false
-    }, 
-
-        {
-            id: 2,
-            title: 'tarea 2',
-            completed: false
-        },
-
-    {
-        id: 3,
-        title: 'tarea 3',
-        completed: false
-    },
-
-    {
-        id: 4,
-        title: 'tarea 4',
-        completed: false
-    },
-
-    {
-        id: 5,
-        title: 'tarea 5',
-        completed: false
-    },
-
-    {
-        id: 6,
-        title: 'tarea 6',
-        completed: false
-    },
-
-    {
-        id: 7,
-        title: 'tarea 7',
-        completed: false
-    },
-
-]
+    tasks: Task[] =[]
 
 
     constructor(private fb: FormBuilder){}
@@ -79,10 +36,14 @@ export class Addcomponent  implements OnInit{
 
     sendTaskTitle(): void {
         if(this.form.valid && this.form.get('tilte')?.value !== ''){
-            this.taskActive = false
-            console.log(this.form.value.title)
-        } else {
-            this.taskActive = true
+            const newTask: Task = {
+                id: Math.floor(Math.random() *1000),
+                title: this.form.value.title,
+                completed: false 
+            }
+
+            this.taskAdded.emit(newTask )
+            this.form.reset()
         }
     }
 

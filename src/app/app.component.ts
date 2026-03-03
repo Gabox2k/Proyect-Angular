@@ -1,47 +1,26 @@
 import { AfterViewInit, Component, DoCheck, OnDestroy } from '@angular/core';
 import { clear } from 'console';
+import { Task } from './modelos/task_interface';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent implements DoCheck{
+export class AppComponent{
+    
+    tasks: Task[] =[]
 
-    // ngAfterViewInit(): void {
-    //   console.log("Ha sido incializada la vista del componente y las vistas de los hijos ")
-    // }
-
-    // Destruido: boolean = true
-
-    // contador:  number
-    // intervalo: any
-
-    // constructor(){
-    //   this.contador = 10
-    //   this.intervalo = setInterval(()=> {
-    //     this.contador--
-    //     if(this.contador === 0) {
-    //       clearInterval(this.intervalo)
-    //       this.Destruido = false
-    //     }
-    //   }, 100)
-    // }
-
-    value: number = 0
-    previousValue: number = 0
-    ChangeDetected: boolean = false
-
-    updateValue(): void {
-      this.value++
-      setInterval(()=> {
-        this.ChangeDetected = false
-      }, 1000)
+    addTask(task: Task): void {
+        this.tasks.push(task)
     }
 
-  ngDoCheck(): void {
-    if(this.value !== this.previousValue)
-      this.ChangeDetected = true 
-    this.previousValue = this.value
-  }
+    markTaskCompleted(task: Task): void {
+        task.completed= !task.completed
+    }
+
+    deleteTask( id: number): void {
+        this.tasks = this.tasks.filter((task) => task.id !== id)
+    }
+    
 }
