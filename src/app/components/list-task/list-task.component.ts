@@ -10,7 +10,7 @@ import { Task } from '../../modelos/task_interface'
 export class ListTaskComponent{
 
   @Input('listTask') tasks: Task[] = []
-
+  @Input() taskUpload: Task [] = []
   @Output() TaskCompleted: EventEmitter<Task> = new EventEmitter<Task>()
   @Output() TaskDeleted: EventEmitter<number> = new EventEmitter<number>()
 
